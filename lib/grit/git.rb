@@ -327,8 +327,7 @@ module Grit
       chdir    = options.delete(:chdir)
 
       # build up the git process argv
-      argv = []
-      argv << Git.git_binary
+      argv = Git.git_binary.split(' ')
       argv << "--git-dir=#{git_dir}" if base
       argv << cmd.to_s.tr('_', '-')
       argv.concat(options_to_argv(options))

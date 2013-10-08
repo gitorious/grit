@@ -9,6 +9,15 @@ class TestGit < Test::Unit::TestCase
     Grit.debug = false
   end
 
+  def test_multipart_git_binary
+    Grit::Git.git_binary = '/usr/bin/env git'
+    repository = Grit::Repo.new(File.join(File.dirname(__FILE__), 'dot_git'), :is_bare => true)
+
+    assert !repository.log.empty?
+  ensure
+    Grit::Git.git_binary = nil
+  end
+
   def test_method_missing
     assert_match(/^git version [\w\.]*$/, @git.version)
   end
