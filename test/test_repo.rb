@@ -37,6 +37,16 @@ class TestRepo < Test::Unit::TestCase
     FileUtils.rm_r(gpath)
   end
 
+  def test_non_utf8_refs
+    git = Grit::Repo.new(File.join(File.dirname(__FILE__), *%w[dot_git_non_utf8]), :is_bare => true)
+    assert_equal ["master"], git.heads.map(&:name)
+  end
+
+  def test_non_utf8_refs
+    git = Grit::Repo.new(File.join(File.dirname(__FILE__), *%w[dot_git_non_utf8]), :is_bare => true)
+    assert_equal "master", git.head.name
+  end
+
   # new
 
   def test_new_should_raise_on_invalid_repo_location

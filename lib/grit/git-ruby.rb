@@ -100,6 +100,7 @@ module Grit
       packref = File.join(@git_dir, 'packed-refs')
       if File.file?(packref)
         File.readlines(packref).each do |line|
+          line = GritExt.encode!(line)
           if m = /^(\w{40}) refs\/.+?\/(.*?)$/.match(line)
             next if !Regexp.new(Regexp.escape(string) + '$').match(m[3])
             return m[1].chomp
@@ -133,6 +134,7 @@ module Grit
       packed = File.join(@git_dir, 'packed-refs')
       if File.file?(packed)
         File.readlines(packed).each do |line|
+          line = GritExt.encode!(line)
           if m = /^(\w{40}) (.*?)$/.match(line)
             next if !Regexp.new('^' + orig_prefix).match(m[2])
             name = m[2].sub("#{orig_prefix}/", '')
